@@ -5,6 +5,22 @@ useful metrics of classifier performance
 import numpy as np
 
 
+def get_confusion_matrix(predicted, actual, ucats):
+    """Gets confusion matrix where 
+           mat[i, j] = number of instances where 
+                 actual = category i and 
+                 predicted = category j
+    """
+    cmat = []
+    for a_cat in ucats:
+        cvec = []
+        for p_cat in ucats:
+            rate = ((predicted == p_cat) & (actual == a_cat)).sum()
+            cvec.append(rate)
+        cmat.append(cvec)
+    return np.array(cmat)
+
+
 def dprime_from_rates(tpr, far, clip=5):
     """Computes the formula
           Z(true positive rate) - Z(false alarm rate)
