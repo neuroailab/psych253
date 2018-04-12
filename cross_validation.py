@@ -100,3 +100,4 @@ def get_splits(metadata,
         splits.append(split)
         
     return splits
+

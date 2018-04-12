@@ -88,3 +88,33 @@ def accuracy_confmat(cmat):
     correct = cmat.diagonal().sum()
     total = cmat.sum()
     return correct / float(total)
+    
+    
+    
+def evaluate_results(confmats, labels):
+    """Convenience function that summarize results over confusion matrices
+       Arguments:
+           confmats = array of shape (M, M, ns)  where M = number of categories
+                      and ns = number of splits
+                confmats[i, j, k] = number of times classifier predicted class j 
+                                    when actual is class i, on split k 
+           labels = length-M vector of category labels
+           
+       Returns: dictionary with useful summary metrics, including dprime,
+                balanced accuracy, and percent correct (regular "accuracy")
+                both for the split-mean confusion matrix, and separately across splits
+                  
+    """
+    result = {}
+    result['labels'] = labels
+    result['confusion_matrices'] = confmats
+    mean_confmat = confmats.mean(0)
+    result['mean_dprime'] = dprime_confmat(mean_confmat)
+    result['mean_balanced_accuracy'] = balanced_accuracy(mean_confmat)
+    result['mean_accuracy'] = accuracy_confmat(mean_confmat)
+    
+    result['dprime_by_split'] = [dprime_confmat(c) for c in confmats]
+    result['balanced_acc_by_split'] = [balanced_accuracy(c) for c in confmats]
+    result['accuracy_by_split'] = [accuracy_confmat(c) for c in confmats]
+    
+    return result   
