@@ -3,6 +3,7 @@ useful metrics of classifier performance
 """
 
 import numpy as np
+import scipy.stats as stats
 
 
 def get_confusion_matrix(predicted, actual, ucats):

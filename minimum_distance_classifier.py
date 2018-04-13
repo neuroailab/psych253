@@ -13,10 +13,10 @@ class MinimumDistanceClassifier(object):
         """
         self.metric = metric
 
-    def initialize(self, n_classes, n_features, labeset, val=None, n=None):
+    def initialize(self, n_classes, n_features, classes_, val=None, n=None):
         self.n_classes = n_classes
         self.n_features = n_features
-        self.labelset = labelset
+        self.classes_ = classes_
         self._mu = np.zeros((self.n_classes, self.n_features))
         self._n_samples = np.zeros((self.n_classes,)).astype(np.int)
         if val is not None:
@@ -28,21 +28,21 @@ class MinimumDistanceClassifier(object):
             self._n_samples += n
 
     def fit(self, X, y):
-        labelset = np.unique(y)
-        n_classes = len(labelset)
+        classes_ = np.unique(y)
+        n_classes = len(classes_)
         n_features = X.shape[1]
-        self.initialize(n_classes, n_features, labelset, val=None, n=None)
+        self.initialize(n_classes, n_features, classes_, val=None, n=None)
         self.partial_fit(X, y)
 
     def partial_fit(self, X, y, safe=True):
         assert X.ndim == 2
         assert y.ndim == 1
         assert X.shape == (len(y), self.n_features), (X.shape, (len(y), self.n_features))
-        assert set(y) <= set(self.labelset), (set(y), set(self.labelset))
+        assert set(y) <= set(self.classes_), (set(y), set(self.classes_))
         if safe:
             uy = np.unique(y)
-            assert (uy == self.labelset).all()
-        for vi, v in enumerate(self.labelset):
+            assert (uy == self.classes_).all()
+        for vi, v in enumerate(self.classes_):
             Xv = X[y == v]
             nv = float(Xv.shape[0])
             if nv > 0:
@@ -70,4 +70,4 @@ class MinimumDistanceClassifier(object):
         assert X.ndim == 2
         assert X.shape[1] == self.n_features
         decs = self.decision_function(X)
-        return self.labelset[decs.argmin(1)]
+        return self.classes_[decs.argmin(1)]
