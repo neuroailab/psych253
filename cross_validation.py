@@ -63,9 +63,9 @@ def get_splits(metadata,
             #count how many there are
             num_possible_test_inds_this_label = len(possible_test_inds_this_label)
             #make sure there are enough
-            assert num_possible_test_inds_this_label >= num_per_class_test, 'You'
-            'requested %s per test class but there are only %d available' % (
+            err_msg = 'You requested %s per test class but there are only %d available' % (
                     num_per_class_test, num_possible_test_inds_this_label)
+            assert num_possible_test_inds_this_label >= num_per_class_test, err_msg
             #select num_per_class_test random examples
             perm = rng.permutation(num_possible_test_inds_this_label)
             actual_test_inds_this_label = possible_test_inds_this_label[
@@ -87,9 +87,9 @@ def get_splits(metadata,
             _this_label = labels[remaining_available_train_inds] == label
             possible_train_inds_this_label = remaining_available_train_inds[_this_label]
             num_possible_train_inds_this_label = len(possible_train_inds_this_label)
-            assert num_possible_train_inds_this_label >= num_per_class_train, 'You'
-            ' requested %s per train class but there are only %d available' % (
-                    num_per_class_train, num_possible_train_inds_this_label)
+            err_msg = 'You requested %s per train class but there are only %d available' % (
+                  num_per_class_train, num_possible_train_inds_this_label)
+            assert num_possible_train_inds_this_label >= num_per_class_train, err_msg
             perm = rng.permutation(num_possible_train_inds_this_label)
             actual_train_inds_this_label = possible_train_inds_this_label[
                                                       perm[ :num_per_class_train]]
@@ -100,4 +100,18 @@ def get_splits(metadata,
         splits.append(split)
         
     return splits
+
+
+def validate_splits(splits, labels):
+    train_classes = np.unique(labels[splits[0]['train']])
+    for split in splits:
+        train_inds = split['train']
+        test_inds = split['test']
+        assert set(train_inds).intersection(test_inds) == set([])
+        train_labels = labels[split['train']]
+        test_labels = labels[split['test']]
+        assert (np.unique(train_labels) == train_classes).all()
+        assert set(test_labels) <= set(train_classes)
+    return train_classes
+
 
