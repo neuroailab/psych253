@@ -3,6 +3,9 @@ library of routines for cross validation
 """
 import numpy as np
 
+#our own local imports
+import metrics 
+
 
 def get_splits(metadata,
                split_by_func,
@@ -114,4 +117,92 @@ def validate_splits(splits, labels):
         assert set(test_labels) <= set(train_classes)
     return train_classes
 
+
+def train_and_test_scikit_classifier(features, 
+                                     labels,
+                                     splits,
+                                     model_class,
+                                     model_args=None,
+                                     feature_norm=True,
+                                     return_models=False
+                                    ):
+    """Routine for contructing, training and testing correlation classifier
+       
+       Arguments: 
+           features: (K, M) feature array where K = number of stimuli and M = number of features
+           labels: length-K vector of labels to be predicted
+           splits: splits of data (constructed by calling the get_splits function)
+           model_class: the actual live pythone object that is the classifier "class" object
+           model_args: dictionary of arguments for instantiating the classifier class obejct
+           feature_norm: apply featurewise_norm
+           return_models: return actual trained models for each split
+           
+       Returns:
+           dictionary summary of training and testing results
+    
+    """
+    train_confmats = []
+    test_confmats = []
+    
+    if model_args is None:
+        model_args = {}
+    
+    training_sidedata = []
+    train_classes = validate_splits(splits, labels)
+    
+    models = []
+    
+    for split in splits:
+
+        #here we instantiate the general classifier, whatever it is
+        model = model_class(**model_args)
+
+        train_inds = split['train']
+        test_inds = split['test']
+        train_features = features[train_inds]
+        train_labels = labels[train_inds]
+        test_features = features[test_inds]
+        test_labels = labels[test_inds]
+
+        if feature_norm:
+            train_features, fmean, fvar = featurewise_norm(train_features)
+            sidedata = {'fmean': fmean, 'fvar': fvar}
+            training_sidedata.append(sidedata)
+        
+        model.fit(train_features, train_labels)
+        classes_ = model.classes_
+        assert set(model.classes_) == set(train_classes)
+        sidedata['classes_'] = classes_
+        
+        train_predictions = model.predict(train_features)
+        train_confmat = metrics.get_confusion_matrix(train_predictions, 
+                                                     train_labels, 
+                                                     train_classes)
+        train_confmats.append(train_confmat)
+                
+        if feature_norm:
+            test_features, _ignore, _ignore = featurewise_norm(test_features,
+                                                               fmean=fmean,
+                                                               fvar=fvar)
+            
+        test_predictions = model.predict(test_features)
+        test_confmat = metrics.get_confusion_matrix(test_predictions,
+                                                    test_labels,
+                                                    train_classes)
+        test_confmats.append(test_confmat)
+        
+        if return_models:
+            models.append(model)
+        
+    train_confmats = np.array(train_confmats)
+    train_results = metrics.evaluate_results(train_confmats, train_classes)
+    test_confmats = np.array(test_confmats)
+    test_results = metrics.evaluate_results(test_confmats, train_classes)
+    results = {'train': train_results,
+               'test': test_results,
+               'training_sidedata': training_sidedata}
+    if return_models:
+            results['models'] = models
+            
+    return results, train_classes
 
