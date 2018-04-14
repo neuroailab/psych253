@@ -5,6 +5,7 @@ import numpy as np
 
 #our own local imports
 import metrics 
+from utils import featurewise_norm
 
 
 def get_splits(metadata,
