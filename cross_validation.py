@@ -127,7 +127,7 @@ def train_and_test_scikit_classifier(features,
                                      model_args=None,
                                      gridcv_params=None,
                                      gridcv_args=None,
-                                     fit_args=None
+                                     fit_args=None,
                                      feature_norm=True,
                                      return_models=False
                                     ):
