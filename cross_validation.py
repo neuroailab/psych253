@@ -139,6 +139,9 @@ def train_and_test_scikit_classifier(features,
            splits: splits of data (constructed by calling the get_splits function)
            model_class: the actual live pythone object that is the classifier "class" object
            model_args: dictionary of arguments for instantiating the classifier class obejct
+           gridcv_params: dictionary of params for applying gridSearch cross-validation to
+           gridcv_args: additional arguments to the GridSearcCV construction function
+           fit_args: additional arguments to send to the model's fit method during fitting
            feature_norm: apply featurewise_norm
            return_models: return actual trained models for each split
            
