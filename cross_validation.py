@@ -2,6 +2,7 @@
 library of routines for cross validation
 """
 import numpy as np
+from sklearn.model_selection import GridSearchCV
 
 #our own local imports
 import metrics 
@@ -124,6 +125,9 @@ def train_and_test_scikit_classifier(features,
                                      splits,
                                      model_class,
                                      model_args=None,
+                                     gridcv_params=None,
+                                     gridcv_args=None,
+                                     fit_args=None
                                      feature_norm=True,
                                      return_models=False
                                     ):
@@ -147,6 +151,8 @@ def train_and_test_scikit_classifier(features,
     
     if model_args is None:
         model_args = {}
+    if fit_args is None:
+        fit_args = {}
     
     training_sidedata = []
     train_classes = validate_splits(splits, labels)
@@ -157,7 +163,11 @@ def train_and_test_scikit_classifier(features,
 
         #here we instantiate the general classifier, whatever it is
         model = model_class(**model_args)
-
+        if gridcv_params is not None:
+            if gridcv_args is None:
+                gridcv_args = {}
+            model = GridSearchCV(model, gridcv_params, **gridcv_args)
+            
         train_inds = split['train']
         test_inds = split['test']
         train_features = features[train_inds]
@@ -170,7 +180,7 @@ def train_and_test_scikit_classifier(features,
             sidedata = {'fmean': fmean, 'fvar': fvar}
             training_sidedata.append(sidedata)
         
-        model.fit(train_features, train_labels)
+        model.fit(train_features, train_labels, **fit_args)
         classes_ = model.classes_
         assert set(model.classes_) == set(train_classes)
         sidedata['classes_'] = classes_
