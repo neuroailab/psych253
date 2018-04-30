@@ -44,7 +44,11 @@ def split_half_correlation(datas_by_trial,
                            num_splits,
                            aggfunc=idfunc,
                            statfunc=pearsonr):
-    """
+
+    """arguments:
+              data_by_trial -- list of (numpy arrays) 
+                        assumes each is a tensor with structure is (trials, stimuli)
+              num_splits (nonnegative integer) how many splits of the data to make
     """
         
     random_number_generator = np.random.RandomState(seed=0)
