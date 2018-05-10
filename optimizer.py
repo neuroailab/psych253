@@ -1,5 +1,7 @@
 import numpy as np
 
+import tensorflow as tf
+
 class BatchReader(object):
     
     def __init__(self,
@@ -23,7 +25,8 @@ class BatchReader(object):
             self.rng = np.random.RandomState(seed=self.shuffle_seed)
             self.perm = self.rng.permutation(self.data_length)
         if processors is None:
-            self.processors = {}
+            processors = {}
+        self.processors = processors
         
     def __iter__(self):
         return self
@@ -55,7 +58,7 @@ class BatchReader(object):
             if self.shuffle:
                 batch_inds = np.sort(self.perm[startv: endv])
             else:
-            	batch_inds = slice(startv, endv)
+            	batch_inds = range(startv, endv)
             data[k] = self.get_data(k, batch_inds)
         return data
 
@@ -139,18 +142,27 @@ class TF_Optimizer(object):
                                          **optimizer_kwargs)
         
     def fit(self, train_data, train_labels):
-        fshape = train_data.shape[1:]
+        if 'data' in self.data_processors:
+            td = self.data_processors['data'](train_data,
+                                              range(self.batch_size))
+        else:
+            td = train_data[:1]
+        fshape = td.shape[1:]
         self.data_holder = tf.placeholder(shape=(None,) + fshape,
                                      dtype=tf.float32,
                                      name='data')
-        lshape = train_labels.shape[1:]
+        if 'labels' in self.data_processors:
+            tl = self.data_processors['labels'](train_labels,
+                                                range(self.batch_size))
+        else:
+            tl = train_labels[:1]
+        lshape = tl.shape[1:]
         self.label_holder = tf.placeholder(shape=(None,) + lshape,
                                      dtype=tf.float32,
                                      name='labels')
-    
         self.model = self.model_func(self.data_holder,
-        							 self.label_holder,
-        							 **self.model_kwargs)
+        			     self.label_holder,
+        			     **self.model_kwargs)
         self.loss = self.loss_func(self.model,
                                    self.label_holder,
                                    **self.loss_kwargs)
@@ -158,13 +170,13 @@ class TF_Optimizer(object):
         self.optimizer_op = self.optimizer.minimize(self.loss)
             
         data_dict = {self.data_holder: train_data,
-                     self.labels_holder: train_labels}
+                     self.label_holder: train_labels}
         data_processors={}
         if self.data_processors:
             if 'data' in self.data_processors:
                 data_processors[self.data_holder] = self.data_processors['data']
             if 'labels' in self.data_processors:
-                data_processors[self.labels_holder] = self.data_processors['labels']
+                data_processors[self.label_holder] = self.data_processors['labels']
         train_data = BatchReader(data_dict=data_dict,
                                  batch_size=self.batch_size,
                                  shuffle=self.train_shuffle,
@@ -173,7 +185,7 @@ class TF_Optimizer(object):
                                  processors=data_processors)
         
         init_op = tf.global_variables_initializer()
-        sess.run(init_op)
+        self.sess.run(init_op)
         
         self.losses = []                      
         for i in range(self.train_iterations):
@@ -181,6 +193,8 @@ class TF_Optimizer(object):
             output = self.sess.run({'opt': self.optimizer_op,
                                     'loss': self.loss}, 
                                     feed_dict=data_batch)
+            if i % 100 == 0:
+                print('iteration %d loss %.3f' % (i, output['loss']))
             self.losses.append(output['loss'])
                 
     def predict(self, test_data):
