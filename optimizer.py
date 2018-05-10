@@ -1,3 +1,5 @@
+import numpy as np
+
 class BatchReader(object):
     
     def __init__(self,
