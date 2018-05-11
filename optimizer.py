@@ -54,6 +54,8 @@ class BatchReader(object):
         if self.pad and endv > self.data_length:
             startv = self.data_length - self.batch_size
             endv = startv + self.batch_size
+        elif endv > self.data_length:
+            endv = min(endv, self.data_length)
         for k in self.data_dict:
             if self.shuffle:
                 batch_inds = np.sort(self.perm[startv: endv])
