@@ -109,8 +109,8 @@ class TF_Optimizer(object):
                  model_func,
                  loss_func, 
                  optimizer_class,
-                 batch_size,
                  train_iterations,
+                 batch_size=None,
                  model_kwargs=None,
                  loss_kwargs=None,
                  optimizer_args=(),
@@ -203,11 +203,14 @@ class TF_Optimizer(object):
         			     **self.model_kwargs)
         self.loss = self.loss_func(self.model,
                                    self.label_holder,
-                                   **self.loss_kwargs)        
-        self.optimizer_op = self.optimizer.minimize(self.loss)
-            
-        
-        init_op = tf.global_variables_initializer()
+                                   **self.loss_kwargs)
+
+        scope = tf.get_variable_scope()
+        optim_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=scope.name)
+        self.optimizer_op = self.optimizer.minimize(self.loss, var_list=optim_vars)
+        optim_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=scope.name)         
+        init_op = tf.variables_initializer(optim_vars)
+    
         self.sess.run(init_op)
         
         self.losses = []                      
@@ -224,7 +227,8 @@ class TF_Optimizer(object):
                 print('iteration %d loss %.3f' % (i, output['loss']))
             self.losses.append(output['loss'])
                 
-    def predict(self, test_data, num_batches=None):
+    def predict(self, test_data, test_labels=None, num_batches=None):
+        label_output = None
         if not isinstance(test_data, tf.Tensor):
             data_reader = self.get_data(test_data,
                                         None,
@@ -232,16 +236,27 @@ class TF_Optimizer(object):
                                         shuffle_seed=0,
                                         pad=False)
         else:
+            label_output = []
             data_reader = None
         preds = []
         if num_batches is None:
             num_batches = test_data.total_batches
+
         
         for i in range(num_batches):
             if data_reader is not None:
                 data_batch = test_data.get_batch(i)
                 pred_batch = self.sess.run(self.model, feed_dict=data_batch)
             else:
-                pred_batch = self.sess.run(self.model)
+                model = self.model_func(test_data,
+                                        test_labels,
+                                        **self.model_kwargs)
+
+                pred_batch, labels_batch = self.sess.run([model, test_labels])
+                label_output.append(labels_batch)
             preds.append(pred_batch)
-        return np.row_stack(preds)
+
+        if label_output is None:
+            return np.row_stack(preds)
+        else:
+            return np.row_stack(preds), np.row_stack(label_output)
