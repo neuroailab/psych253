@@ -3,6 +3,8 @@ implementations of basic methods for finding eigenvalues and eigenvectors, and P
 """
 import numpy as np
 
+from utils import featurewise_norm
+
 
 def norm(v):
     return v / np.linalg.norm(v)
