@@ -1,0 +1,276 @@
+{
+    "MeasurementToolMetadata": {
+        "Description": "Barratt Impulsiveness Survey",
+        "TermURL": "http://www.cognitiveatlas.org/term/id/trm_55a6a8e81b7f4"
+    },
+    "bis11_survey_10": {
+        "Description": "I concentrate easily.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    },
+    "bis11_survey_11": {
+        "Description": "I save regularly.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    },
+    "bis11_survey_12": {
+        "Description": "I 'squirm' at plays or lectures.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_13": {
+        "Description": "I am a careful thinker.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    },
+    "bis11_survey_14": {
+        "Description": "I plan for job security.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    },
+    "bis11_survey_15": {
+        "Description": "I say things without thinking.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_16": {
+        "Description": "I like to think about complex problems.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    },
+    "bis11_survey_17": {
+        "Description": "I change jobs.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_18": {
+        "Description": "I act on impulse.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_19": {
+        "Description": "I get easily bored when solving thought problems.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_2": {
+        "Description": "I plan tasks carefully.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    },
+    "bis11_survey_20": {
+        "Description": "I act on the spur of the moment.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_21": {
+        "Description": "I am a steady thinker.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    },
+    "bis11_survey_22": {
+        "Description": "I change residences.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_23": {
+        "Description": "I buy things on impulse.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_24": {
+        "Description": "I can only think about one thing at a time.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_25": {
+        "Description": "I change hobbies.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_26": {
+        "Description": "I spend or charge more than I earn.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_27": {
+        "Description": "I often have extraneous thoughts when thinking.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_28": {
+        "Description": "I am more interested in the present than the future.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_29": {
+        "Description": "I am restless at the theater or lectures.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_3": {
+        "Description": "I do things without thinking.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_30": {
+        "Description": "I like puzzles.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    },
+    "bis11_survey_31": {
+        "Description": "I am future oriented.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    },
+    "bis11_survey_4": {
+        "Description": "I make-up my mind quickly.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_5": {
+        "Description": "I am happy-go-lucky.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_6": {
+        "Description": "I don't pay attention.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_7": {
+        "Description": "I have 'racing' thoughts.",
+        "Levels": {
+            "1": "Rarely/Never",
+            "2": "Occasionally",
+            "3": "Often",
+            "4": "Almost Always/Always"
+        }
+    },
+    "bis11_survey_8": {
+        "Description": "I plan trips well ahead of time.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    },
+    "bis11_survey_9": {
+        "Description": "I am self controlled.",
+        "Levels": {
+            "1": "Almost Always/Always",
+            "2": "Often",
+            "3": "Occasionally",
+            "4": "Rarely/Never"
+        }
+    }
+}
