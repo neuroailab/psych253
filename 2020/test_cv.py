@@ -1,5 +1,5 @@
 import numpy as np
-from get_balanced_folds import BalancedKFold
+from balanced_kfold import BalancedKFold
 
 
 # smoke test
