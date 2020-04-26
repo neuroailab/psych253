@@ -4,6 +4,12 @@ FROM jupyter/datascience-notebook
 
 WORKDIR /analysis
 
-RUN echo 'install.packages(c("lmerTest", "optimx"), repos="http://cran.us.r-project.org", dependencies=TRUE)' >> /tmp/packages.R && Rscript /tmp/packages.R
+USER root
 
-ENTRYPOINT ["jupyter", "lab","--ip=0.0.0.0","--port=9993","--allow-root"]
+RUN apt-get update && apt-get install -y --no-install-recommends libv8-dev \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN echo 'install.packages(c("semPlot", "fabricatr", "EMAtools", "psych", "simr", "RColorBrewer", "brms", "lavaan", "lavaanPlot", "lmerTest", "optimx", "semTools"), repos="http://cran.us.r-project.org", dependencies=TRUE)' >> /tmp/packages.R && Rscript /tmp/packages.R
+
+ENTRYPOINT ["/bin/bash"] 
